@@ -1,0 +1,13 @@
+I.Gestion des dons pour les sinistré:
+
+Toky:
+
+    Base de données:
+        -Création de la database:"exam_final_s3"    OK
+        -Création da la table:"Ville"   OK
+        -Création de la table:"Besoin"  OK
+        -Création de la table:"Nature_besoin"   OK
+
+    Fonction:
+
+    Vue:
