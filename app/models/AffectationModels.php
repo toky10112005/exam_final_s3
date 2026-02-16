@@ -6,7 +6,7 @@ use PDO;
 
 class AffectationModels{
     private $db;
-    private $table='Affectation';
+    private $table='bnjrc_Affectation';
 
     public function __construct($db){
         $this->db=Flight::db();

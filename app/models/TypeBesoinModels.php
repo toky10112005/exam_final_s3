@@ -5,7 +5,7 @@ use Flight;
 
 class TypeBesoinModels{
     private $db;
-    private $table='Type_besoin';
+    private $table='bnjrc_Type_besoin';
 
     private $nom;
     private $categorie;

@@ -66,21 +66,21 @@ return [
 	 *         Database Settings          *
 	 **************************************/
 	'database' => [
-		// MySQL Example:
-		// 'host'     => 'localhost',      // Database host (e.g., 'localhost', 'db.example.com')
-		// 'dbname'   => 'your_db_name',   // Database name (e.g., 'flightphp')
-		// 'user'     => 'your_username',  // Database user (e.g., 'root')
-		// 'password' => 'your_password',  // Database password (never commit real passwords)
+		//MySQL Example:
+		'host'     => 'localhost',      // Database host (e.g., 'localhost', 'db.example.com')
+		'dbname'   => 'bnjrc',   // Database name (e.g., 'flightphp')
+		'user'     => 'toky',  // Database user (e.g., 'root')
+		'password' => '',  // Database password (never commit real passwords)
 
 		// SQLite Example:
 		// 'file_path' => __DIR__ . $ds . '..' . $ds . 'database.sqlite', // Path to SQLite file
 		  // PostgreSQL Example:
-    'driver'   => 'pgsql',          // Important: PostgreSQL driver
-    'host'     => 'localhost',      // Database host
-    'port'     => 5432,             // Default PostgreSQL port
-    'dbname'   => 'exam_final_s3',   // Database name
-    'user'     => 'itu',  // Database user
-    'password' => 'itu',  // Database password
+    // 'driver'   => 'pgsql',          // Important: PostgreSQL driver
+    // 'host'     => 'localhost',      // Database host
+    // 'port'     => 5432,             // Default PostgreSQL port
+    // 'dbname'   => 'exam_final_s3',   // Database name
+    // 'user'     => 'itu',  // Database user
+    // 'password' => 'itu',  // Database password
 
 	],
 

@@ -6,7 +6,7 @@ use PDO;
 
 class BesoinModels{
     private $db;
-    private $table='Besoin';
+    private $table='bnjrc_Besoin';
 
     private $ville_id;
     private $type_id;
@@ -46,10 +46,10 @@ class BesoinModels{
                 SUM(b.quantite_demandee * t.prix_unitaire) AS valeur_totale_demande,
                 SUM(b.quantite_satisfaite * t.prix_unitaire) AS valeur_totale_satisfaite,
                 COUNT(b.id) AS nombre_besoins
-            FROM Ville v
-            JOIN Region r ON v.region_id = r.id
-            LEFT JOIN Besoin b ON v.id = b.ville_id
-            LEFT JOIN Type_besoin t ON b.type_id = t.id
+            FROM  bnjrc_Ville v
+            JOIN bnjrc_Region r ON v.region_id = r.id
+            LEFT JOIN bnjrc_Besoin b ON v.id = b.ville_id
+            LEFT JOIN bnjrc_Type_besoin t ON b.type_id = t.id
             GROUP BY v.id, v.nom, r.nom, b.type_id, t.nom, t.categorie, t.prix_unitaire
             ORDER BY r.nom, v.nom, t.categorie
         ";
@@ -63,8 +63,8 @@ class BesoinModels{
     public function list(){
         $query="SELECT b.*, v.nom as ville_nom, t.nom as type_nom, t.prix_unitaire 
                 FROM {$this->table} b 
-                JOIN Ville v ON b.ville_id = v.id 
-                JOIN Type_besoin t ON b.type_id = t.id 
+                JOIN bnjrc_Ville v ON b.ville_id = v.id 
+                JOIN bnjrc_Type_besoin t ON b.type_id = t.id 
                 ORDER BY b.date_demande ASC";
         $stmt=$this->db->prepare($query);
         $stmt->execute();
@@ -74,8 +74,8 @@ class BesoinModels{
     public function getBesoinsNonSatisfaits(){
         $query="SELECT b.*, v.nom as ville_nom, t.nom as type_nom, t.prix_unitaire 
                 FROM {$this->table} b 
-                JOIN Ville v ON b.ville_id = v.id 
-                JOIN Type_besoin t ON b.type_id = t.id 
+                JOIN bnjrc_Ville v ON b.ville_id = v.id 
+                JOIN bnjrc_Type_besoin t ON b.type_id = t.id 
                 WHERE b.quantite_demandee > b.quantite_satisfaite
                 ORDER BY b.date_demande ASC";
         $stmt=$this->db->prepare($query);

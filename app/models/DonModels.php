@@ -7,7 +7,7 @@ use PDO;
 class DonModels {
     
     private $db;
-    private $table = 'Don';
+    private $table = 'bnjrc_Don';
     
     public $type_id;
     public $quantite_donnee;
@@ -32,7 +32,7 @@ class DonModels {
     public function list(){
         $query="SELECT d.*, t.nom as type_nom, t.prix_unitaire 
                 FROM {$this->table} d 
-                JOIN Type_besoin t ON d.type_id = t.id 
+                JOIN bnjrc_Type_besoin t ON d.type_id = t.id 
                 ORDER BY d.date_don ASC";
         $stmt=$this->db->prepare($query);
         $stmt->execute();
@@ -41,9 +41,9 @@ class DonModels {
 
     public function getDonsNonAffectes(){
         $query="SELECT d.*, t.nom as type_nom, t.prix_unitaire,
-                (d.quantite_donnee - COALESCE((SELECT SUM(a.quantite_affectee) FROM Affectation a WHERE a.don_id = d.id), 0)) as quantite_disponible
+                (d.quantite_donnee - COALESCE((SELECT SUM(a.quantite_affectee) FROM bnjrc_Affectation a WHERE a.don_id = d.id), 0)) as quantite_disponible
                 FROM {$this->table} d 
-                JOIN Type_besoin t ON d.type_id = t.id 
+                JOIN bnjrc_Type_besoin t ON d.type_id = t.id 
                 HAVING quantite_disponible > 0
                 ORDER BY d.date_don ASC";
         $stmt=$this->db->prepare($query);

@@ -6,7 +6,7 @@ use PDO;
 
 class VilleModels{
     private $db;
-    private $table='Ville';
+    private $table='bnjrc_Ville';
 
     private $nom;
     private $region_id;
