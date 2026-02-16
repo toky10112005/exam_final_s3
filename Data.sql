@@ -20,7 +20,7 @@ CREATE TABLE bnjrc_Type_besoin(
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,       -- Ex: 'Riz', 'Tôle', 'Argent'
     categorie VARCHAR(50) NOT NULL,  -- Ex: 'Nature', 'Materiau', 'Argent'
-    prix_unitaire DECIMAL(10, 2) NOT NULL -- Le prix ne change jamais, il est ici
+    prix_unitaire DECIMAL(10,2) NOT NULL -- Le prix ne change jamais, il est ici
 );
 
 -- 3. Les Besoins exprimés par les villes
@@ -61,6 +61,27 @@ CREATE TABLE bnjrc_Affectation(
     FOREIGN KEY (besoin_id) REFERENCES bnjrc_Besoin(id)
 );
 
+-- 6. Table de configuration (frais d'achat)
+CREATE TABLE bnjrc_Config(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cle VARCHAR(50) NOT NULL UNIQUE,
+    valeur VARCHAR(255) NOT NULL,
+    description VARCHAR(255)
+);
+
+-- 7. Table des Achats (utilisation des dons en argent pour acheter des besoins en nature/matériaux)
+CREATE TABLE bnjrc_Achat(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    besoin_id INT NOT NULL,
+    quantite_achetee INT NOT NULL,
+    prix_unitaire DECIMAL(10,2) NOT NULL,
+    frais_pourcent DECIMAL(5,2) NOT NULL,
+    montant_total DECIMAL(12,2) NOT NULL,  -- quantite * prix * (1 + frais%)
+    date_achat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (besoin_id) REFERENCES bnjrc_Besoin(id)
+);
+
 INSERT INTO bnjrc_Region (nom) VALUES
 ('Analamanga');
 
@@ -73,3 +94,7 @@ INSERT INTO bnjrc_Type_besoin (nom, categorie, prix_unitaire) VALUES
 ('Riz', 'Nature', 1.500),
 ('Tôle', 'Materiaux', 10.000),
 ('Argent', 'Argent', 1.000);
+
+-- Frais d'achat par défaut (10%)
+INSERT INTO bnjrc_Config (cle, valeur, description) VALUES
+('frais_achat_pourcent', '10', 'Pourcentage de frais sur les achats via dons en argent');

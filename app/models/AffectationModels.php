@@ -26,10 +26,10 @@ class AffectationModels{
     public function list(){
         $query="SELECT a.*, d.donateur, d.quantite_donnee, b.quantite_demandee, v.nom as ville_nom, t.nom as type_nom, t.prix_unitaire
                 FROM {$this->table} a 
-                JOIN Don d ON a.don_id = d.id 
-                JOIN Besoin b ON a.besoin_id = b.id 
-                JOIN Ville v ON b.ville_id = v.id 
-                JOIN Type_besoin t ON b.type_id = t.id 
+                JOIN bnjrc_Don d ON a.don_id = d.id 
+                JOIN bnjrc_Besoin b ON a.besoin_id = b.id 
+                JOIN bnjrc_Ville v ON b.ville_id = v.id 
+                JOIN bnjrc_Type_besoin t ON b.type_id = t.id 
                 ORDER BY a.date_affectation ASC";
         $stmt=$this->db->prepare($query);
         $stmt->execute();
@@ -41,11 +41,11 @@ class AffectationModels{
                 t.id as type_id, t.nom as type_nom, t.categorie, t.prix_unitaire,
                 COALESCE(SUM(a.quantite_affectee), 0) as total_affecte,
                 COALESCE(SUM(a.quantite_affectee * t.prix_unitaire), 0) as valeur_affectee
-                FROM Ville v
-                JOIN Region r ON v.region_id = r.id
-                LEFT JOIN Besoin b ON v.id = b.ville_id
-                LEFT JOIN Type_besoin t ON b.type_id = t.id
-                LEFT JOIN Affectation a ON b.id = a.besoin_id
+                FROM bnjrc_Ville v
+                JOIN bnjrc_Region r ON v.region_id = r.id
+                LEFT JOIN bnjrc_Besoin b ON v.id = b.ville_id
+                LEFT JOIN bnjrc_Type_besoin t ON b.type_id = t.id
+                LEFT JOIN bnjrc_Affectation a ON b.id = a.besoin_id
                 GROUP BY v.id, v.nom, r.nom, t.id, t.nom, t.categorie, t.prix_unitaire
                 ORDER BY r.nom, v.nom, t.categorie";
         $stmt=$this->db->prepare($query);

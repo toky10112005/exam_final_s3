@@ -94,6 +94,7 @@
     <div class="nav">
         <a href="/">Saisie</a>
         <a href="/dashboard">Tableau de Bord</a>
+        <a href="/achats" style="background-color: #17a2b8;">Achats</a>
     </div>
 
     <?php if(isset($message)): ?>

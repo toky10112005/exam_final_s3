@@ -96,6 +96,7 @@
     <div class="nav">
         <a href="/">Saisie</a>
         <a href="/dashboard">Tableau de Bord</a>
+        <a href="/achats" style="background-color: #17a2b8;">Achats</a>
         <a href="/dispatch" class="dispatch">Simuler Dispatch</a>
     </div>
 

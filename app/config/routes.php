@@ -10,6 +10,7 @@ use app\controllers\TypeBesoinController;
 use app\controllers\BesoinController;
 use app\controllers\DonController;
 use app\controllers\AffectationController;
+use app\controllers\AchatController;
  
 /** 
  * @var Router $router 
@@ -60,6 +61,82 @@ $router->group('', function(Router $router) use ($app) {
 		$dashboard = $besoinController->getDashboard();
 		
 		$app->render('Dashboard', ['dashboard' => $dashboard, 'message' => $result]);
+	});
+
+	// Routes pour les achats
+	$router->get('/achats', function() use ($app) {
+		$achatController = new AchatController($app);
+		$villeController = new VilleController($app);
+		
+		$ville_id = isset($_GET['ville_id']) ? intval($_GET['ville_id']) : null;
+		
+		$achats = $achatController->listAchats($ville_id);
+		$besoinsRestants = $achatController->getBesoinsRestantsPourAchat();
+		$soldeArgent = $achatController->getSoldeArgent();
+		$fraisAchat = $achatController->getFraisAchat();
+		$villes = $villeController->list();
+		
+		$app->render('Achats', [
+			'achats' => $achats,
+			'besoinsRestants' => $besoinsRestants,
+			'soldeArgent' => $soldeArgent,
+			'fraisAchat' => $fraisAchat,
+			'villes' => $villes,
+			'ville_id_filtre' => $ville_id
+		]);
+	});
+
+	$router->get('/effectuer-achat', function() use ($app) {
+		$achatController = new AchatController($app);
+		$villeController = new VilleController($app);
+		
+		$besoin_id = isset($_GET['besoin_id']) ? intval($_GET['besoin_id']) : 0;
+		$quantite = isset($_GET['quantite']) ? intval($_GET['quantite']) : 0;
+		
+		$result = $achatController->effectuerAchat($besoin_id, $quantite);
+		
+		$achats = $achatController->listAchats();
+		$besoinsRestants = $achatController->getBesoinsRestantsPourAchat();
+		$soldeArgent = $achatController->getSoldeArgent();
+		$fraisAchat = $achatController->getFraisAchat();
+		$villes = $villeController->list();
+		
+		$app->render('Achats', [
+			'achats' => $achats,
+			'besoinsRestants' => $besoinsRestants,
+			'soldeArgent' => $soldeArgent,
+			'fraisAchat' => $fraisAchat,
+			'villes' => $villes,
+			'message' => $result['message'],
+			'success' => $result['success']
+		]);
+	});
+
+	$router->get('/config-frais', function() use ($app) {
+		$achatController = new AchatController($app);
+		$villeController = new VilleController($app);
+		
+		$nouveau_frais = isset($_GET['frais']) ? floatval($_GET['frais']) : null;
+		
+		if ($nouveau_frais !== null) {
+			$achatController->setFraisAchat($nouveau_frais);
+		}
+		
+		$achats = $achatController->listAchats();
+		$besoinsRestants = $achatController->getBesoinsRestantsPourAchat();
+		$soldeArgent = $achatController->getSoldeArgent();
+		$fraisAchat = $achatController->getFraisAchat();
+		$villes = $villeController->list();
+		
+		$app->render('Achats', [
+			'achats' => $achats,
+			'besoinsRestants' => $besoinsRestants,
+			'soldeArgent' => $soldeArgent,
+			'fraisAchat' => $fraisAchat,
+			'villes' => $villes,
+			'message' => $nouveau_frais !== null ? "Frais d'achat mis à jour à {$fraisAchat}%" : null,
+			'success' => true
+		]);
 	});
 	
 
