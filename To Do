@@ -4,10 +4,17 @@ Toky:
 
     Base de données:
         -Création de la database:"exam_final_s3"    OK
-        -Création da la table:"Ville"   OK
-        -Création de la table:"Besoin"  OK
-        -Création de la table:"Nature_besoin"   OK
+        -Création da la table:"Region"   OK
+        -Création de la table:"Ville"  OK
+        -Création de la table:"Type_besoin"  OK
+        -Création de la table:"Don"  OK
+        -Création de la table:"Affectation"  OK
+        
 
     Fonction:
+        -Créer une fonction d'insertion dans "Type_besoin"
+        -
 
-    Vue:
+Roger:
+    -Perfectionnement du To do  
+    -Création de la page de vue 
