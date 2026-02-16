@@ -2,8 +2,9 @@
 namespace app\models;
 
 use Flight;
+use PDO;
 
-class BesoinModel{
+class BesoinModels{
     private $db;
     private $table='Besoin';
 
@@ -14,14 +15,19 @@ class BesoinModel{
     private $date_demande;
     private $statut;
 
-    public function __construct($db,$ville_id,$type_id,$quantite_demandee,$quantite_satisfaite,$date_demande,$statut){
+    public function __construct($db){
         $this->db=Flight::db();
-        $this->ville_id=$ville_id;
-        $this->type_id=$type_id;
-        $this->quantite_demandee=$quantite_demandee;
-        $this->quantite_satisfaite=0;
-        $this->date_demande=$date_demande;
-        $this->statut=$statut;
+    }
+
+    public function insert($ville_id, $type_id, $quantite_demandee){
+        $query="INSERT INTO {$this->table} (ville_id, type_id, quantite_demandee, quantite_satisfaite, date_demande, statut) VALUES (:ville_id, :type_id, :quantite_demandee, 0, NOW(), 'EN_ATTENTE') ";
+        $stmt=$this->db->prepare($query);
+        $params=[
+            ':ville_id'=>$ville_id,
+            ':type_id'=>$type_id,
+            ':quantite_demandee'=>$quantite_demandee
+        ];
+        return $stmt->execute($params);
     }
 
     public function listeVillesAvecBesoins() {
@@ -54,17 +60,43 @@ class BesoinModel{
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    public function Insert(){
-        $query="INSERT INTO {$this->table} (ville_id, type_id, quantite_demandee, quantite_satisfaite, date_demande, statut) VALUES (:ville_id, :type_id, :quantite_demandee, :quantite_satisfaite, :date_demande, :statut) ";
+    public function list(){
+        $query="SELECT b.*, v.nom as ville_nom, t.nom as type_nom, t.prix_unitaire 
+                FROM {$this->table} b 
+                JOIN Ville v ON b.ville_id = v.id 
+                JOIN Type_besoin t ON b.type_id = t.id 
+                ORDER BY b.date_demande ASC";
         $stmt=$this->db->prepare($query);
-        $stmt->bindParam(':ville_id', $this->ville_id);
-        $stmt->bindParam(':type_id', $this->type_id);
-        $stmt->bindParam(':quantite_demandee', $this->quantite_demandee);
-        $stmt->bindParam(':quantite_satisfaite', $this->quantite_satisfaite);
-        $stmt->bindParam(':date_demande', $this->date_demande);
-        $stmt->bindParam(':statut', $this->statut);
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getBesoinsNonSatisfaits(){
+        $query="SELECT b.*, v.nom as ville_nom, t.nom as type_nom, t.prix_unitaire 
+                FROM {$this->table} b 
+                JOIN Ville v ON b.ville_id = v.id 
+                JOIN Type_besoin t ON b.type_id = t.id 
+                WHERE b.quantite_demandee > b.quantite_satisfaite
+                ORDER BY b.date_demande ASC";
+        $stmt=$this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateQuantiteSatisfaite($besoin_id, $quantite){
+        $query="UPDATE {$this->table} SET quantite_satisfaite = quantite_satisfaite + :quantite, 
+                statut = CASE 
+                    WHEN quantite_satisfaite + :quantite2 >= quantite_demandee THEN 'SATISFAIT' 
+                    ELSE 'PARTIEL' 
+                END 
+                WHERE id = :id";
+        $stmt=$this->db->prepare($query);
+        $params=[
+            ':quantite'=>$quantite,
+            ':quantite2'=>$quantite,
+            ':id'=>$besoin_id
+        ];
+        return $stmt->execute($params);
     }
 
 
