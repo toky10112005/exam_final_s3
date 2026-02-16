@@ -57,3 +57,15 @@ CREATE TABLE Affectation(
     FOREIGN KEY (besoin_id) REFERENCES Besoin(id)
 );
 
+INSERT INTO Region (nom) VALUES
+('Analamanga');
+
+INSERT INTO Ville (region_id, nom) VALUES
+(1, 'Antananarivo'),
+(1, 'Ambohidratrimo'),
+(1, 'Andramasina');
+
+INSERT INTO Type_besoin (nom, categorie, prix_unitaire) VALUES
+('Riz', 'Nature', 1.500),
+('Tôle', 'Materiaux', 10.000),
+('Argent', 'Argent', 1.000);
