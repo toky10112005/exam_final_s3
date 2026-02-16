@@ -97,7 +97,9 @@
         <a href="/">Saisie</a>
         <a href="/dashboard">Tableau de Bord</a>
         <a href="/achats" style="background-color: #17a2b8;">Achats</a>
-        <a href="/dispatch" class="dispatch">Simuler Dispatch</a>
+        <a href="/simulation" style="background-color: #6f42c1;">Simulation</a>
+        <a href="/recap" style="background-color: #fd7e14;">Récapitulation</a>
+        <a href="/dispatch" class="dispatch">Dispatcher</a>
     </div>
 
     <?php if(isset($message)): ?>

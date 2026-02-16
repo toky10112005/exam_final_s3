@@ -11,6 +11,8 @@ use app\controllers\BesoinController;
 use app\controllers\DonController;
 use app\controllers\AffectationController;
 use app\controllers\AchatController;
+use app\controllers\SimulationController;
+use app\controllers\RecapController;
  
 /** 
  * @var Router $router 
@@ -137,6 +139,53 @@ $router->group('', function(Router $router) use ($app) {
 			'message' => $nouveau_frais !== null ? "Frais d'achat mis à jour à {$fraisAchat}%" : null,
 			'success' => true
 		]);
+	});
+
+	// Routes pour la simulation
+	$router->get('/simulation', function() use ($app) {
+		$besoinController = new BesoinController($app);
+		$donController = new DonController($app);
+		
+		$db = \Flight::db();
+		$donModel = new \app\models\DonModels($db);
+		$besoinModel = new \app\models\BesoinModels($db);
+		
+		$besoins = $besoinModel->getBesoinsNonSatisfaits();
+		$dons = $donModel->getDonsNonAffectes();
+		
+		$app->render('Simulation', [
+			'besoins' => $besoins,
+			'dons' => $dons
+		]);
+	});
+
+	$router->post('/simulation/simuler', function() use ($app) {
+		$simulationController = new SimulationController($app);
+		$result = $simulationController->simuler();
+		
+		header('Content-Type: application/json');
+		echo json_encode($result);
+	});
+
+	$router->post('/simulation/valider', function() use ($app) {
+		$simulationController = new SimulationController($app);
+		$result = $simulationController->valider();
+		
+		header('Content-Type: application/json');
+		echo json_encode($result);
+	});
+
+	// Routes pour la récapitulation
+	$router->get('/recap', function() use ($app) {
+		$app->render('Recap');
+	});
+
+	$router->get('/recap/stats', function() use ($app) {
+		$recapController = new RecapController($app);
+		$stats = $recapController->getStats();
+		
+		header('Content-Type: application/json');
+		echo json_encode($stats);
 	});
 	
 
