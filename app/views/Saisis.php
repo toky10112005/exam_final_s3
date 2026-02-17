@@ -1,3 +1,6 @@
+<?php
+$ds = DIRECTORY_SEPARATOR;
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -147,5 +150,5 @@
         
         <button type="submit">Soumettre</button>
     </form>
-</body>
-</html>
+    <!-- //Tsy mety ilay include -->
+<?php include_once '../../public/include/Footer.php'; ?>

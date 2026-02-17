@@ -13,9 +13,7 @@ class AchatModels {
         $this->db = Flight::db();
     }
 
-    /**
-     * Récupère le pourcentage de frais d'achat depuis la config
-     */
+
     public function getFraisAchatPourcent() {
         $query = "SELECT valeur FROM bnjrc_Config WHERE cle = 'frais_achat_pourcent'";
         $stmt = $this->db->prepare($query);
@@ -24,19 +22,14 @@ class AchatModels {
         return $result ? floatval($result['valeur']) : 10.0; // Défaut 10%
     }
 
-    /**
-     * Met à jour le pourcentage de frais d'achat
-     */
+    
     public function setFraisAchatPourcent($pourcent) {
         $query = "UPDATE bnjrc_Config SET valeur = :valeur WHERE cle = 'frais_achat_pourcent'";
         $stmt = $this->db->prepare($query);
         return $stmt->execute([':valeur' => $pourcent]);
     }
 
-    /**
-     * Vérifie si le type de besoin existe dans les dons restants (non affectés)
-     * Retourne la quantité disponible ou 0
-     */
+    
     public function getQuantiteDisponibleEnDon($type_id) {
         $query = "SELECT SUM(d.quantite_donnee - COALESCE(
                     (SELECT SUM(a.quantite_affectee) FROM bnjrc_Affectation a WHERE a.don_id = d.id), 0
@@ -50,9 +43,7 @@ class AchatModels {
         return $result ? floatval($result['quantite_disponible']) : 0;
     }
 
-    /**
-     * Récupère le montant total d'argent disponible dans les dons
-     */
+  
     public function getArgentDisponible() {
         $query = "SELECT SUM(d.quantite_donnee - COALESCE(
                     (SELECT SUM(a.quantite_affectee) FROM bnjrc_Affectation a WHERE a.don_id = d.id), 0
@@ -70,9 +61,7 @@ class AchatModels {
         return $result && $result['argent_disponible'] ? floatval($result['argent_disponible']) : 0;
     }
 
-    /**
-     * Calcule le solde d'argent disponible (dons argent - achats effectués)
-     */
+   
     public function getSoldeArgent() {
         // Total des dons en argent
         $queryDons = "SELECT COALESCE(SUM(d.quantite_donnee), 0) as total_dons
@@ -83,7 +72,7 @@ class AchatModels {
         $stmt->execute();
         $totalDons = $stmt->fetch(PDO::FETCH_ASSOC)['total_dons'];
 
-        // Total des achats effectués
+        
         $queryAchats = "SELECT COALESCE(SUM(montant_total), 0) as total_achats FROM {$this->table}";
         $stmt = $this->db->prepare($queryAchats);
         $stmt->execute();
@@ -92,9 +81,7 @@ class AchatModels {
         return floatval($totalDons) - floatval($totalAchats);
     }
 
-    /**
-     * Effectue un achat
-     */
+    
     public function effectuerAchat($besoin_id, $quantite, $prix_unitaire, $frais_pourcent) {
         $montant_total = $quantite * $prix_unitaire * (1 + $frais_pourcent / 100);
         
