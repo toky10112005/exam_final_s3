@@ -152,5 +152,6 @@ $ds = DIRECTORY_SEPARATOR;
         
         <button type="submit">Soumettre</button>
     </form>
-    <!-- //Tsy mety ilay include -->
-<!-- ?php include_once '../../public/include/Footer.php'; ?> -->
+<?php include __DIR__ . '/../../public/include/Footer.php'; ?>
+</body>
+</html>

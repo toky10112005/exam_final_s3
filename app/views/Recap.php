@@ -380,5 +380,6 @@
         // Charger les données au démarrage
         document.addEventListener('DOMContentLoaded', actualiser);
     </script>
+<?php include __DIR__ . '/../../public/include/Footer.php'; ?>
 </body>
 </html>

@@ -153,5 +153,6 @@
     </table>
 
   
+<?php include __DIR__ . '/../../public/include/Footer.php'; ?>
 </body>
 </html>
