@@ -21,6 +21,7 @@ class SimulationController {
      * Simule le dispatch sans enregistrer en base de données
      * Retourne un aperçu des affectations qui seraient faites
      */
+    
     public function simuler() {
         $db = Flight::db();
         
