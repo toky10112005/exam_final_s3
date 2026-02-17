@@ -227,6 +227,7 @@
         <a href="/achats">Achats</a>
         <a href="/simulation">Simulation</a>
         <a href="/recap" class="active">Récapitulation</a>
+        <a href="/reset" style="background-color: #dc3545;" onclick="return confirm('Voulez-vous vraiment réinitialiser toutes les données ?');">Reset</a>
     </div>
 
     <div class="header-section">

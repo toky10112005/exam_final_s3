@@ -183,6 +183,7 @@
         <a href="/achats" class="achats">Achats</a>
         <a href="/simulation" style="background-color: #6f42c1;">Simulation</a>
         <a href="/recap" style="background-color: #fd7e14;">Récapitulation</a>
+        <a href="/reset" style="background-color: #dc3545;" onclick="return confirm('Voulez-vous vraiment réinitialiser toutes les données ?');">Reset</a>
     </div>
 
     <?php if(isset($message)): ?>

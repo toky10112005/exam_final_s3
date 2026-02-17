@@ -99,7 +99,10 @@
         <a href="/achats" style="background-color: #17a2b8;">Achats</a>
         <a href="/simulation" style="background-color: #6f42c1;">Simulation</a>
         <a href="/recap" style="background-color: #fd7e14;">Récapitulation</a>
+
         <a href="/dispatch" class="dispatch">Dispatcher</a>
+        <a href="/dispatch-proportionnel" class="dispatch" style="background-color: #e83e8c;">Dispatch Proportionnel</a>
+        <a href="/reset" style="background-color: #dc3545;" onclick="return confirm('Voulez-vous vraiment réinitialiser toutes les données ?');">Reset</a>
     </div>
 
     <?php if(isset($message)): ?>
@@ -149,11 +152,6 @@
         </tbody>
     </table>
 
-    <div class="summary">
-        <h3>Légende des Statuts</h3>
-        <p><span class="status-satisfait">Vert</span> - Besoin entièrement satisfait</p>
-        <p><span class="status-partiel">Orange</span> - Besoin partiellement satisfait</p>
-        <p><span class="status-attente">Rouge</span> - Besoin en attente</p>
-    </div>
+  
 </body>
 </html>

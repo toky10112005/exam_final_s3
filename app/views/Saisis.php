@@ -100,6 +100,8 @@ $ds = DIRECTORY_SEPARATOR;
         <a href="/achats" style="background-color: #17a2b8;">Achats</a>
         <a href="/simulation" style="background-color: #6f42c1;">Simulation</a>
         <a href="/recap" style="background-color: #fd7e14;">Récapitulation</a>
+
+        <a href="/reset" style="background-color: #dc3545;" onclick="return confirm('Voulez-vous vraiment réinitialiser toutes les données ?');">Reset</a>
     </div>
 
     <?php if(isset($message)): ?>
@@ -151,4 +153,4 @@ $ds = DIRECTORY_SEPARATOR;
         <button type="submit">Soumettre</button>
     </form>
     <!-- //Tsy mety ilay include -->
-<?php include_once '../../public/include/Footer.php'; ?>
+<!-- ?php include_once '../../public/include/Footer.php'; ?> -->

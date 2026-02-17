@@ -65,6 +65,26 @@ $router->group('', function(Router $router) use ($app) {
 		$app->render('Dashboard', ['dashboard' => $dashboard, 'message' => $result]);
 	});
 
+	$router->get('/dispatch-proportionnel', function() use ($app) {
+		$affectationController = new AffectationController($app);
+		$result = $affectationController->simulerDispatchProportionnel();
+		
+		$besoinController = new BesoinController($app);
+		$dashboard = $besoinController->getDashboard();
+		
+		$app->render('Dashboard', ['dashboard' => $dashboard, 'message' => $result]);
+	});
+
+	$router->get('/reset', function() use ($app) {
+		$affectationController = new AffectationController($app);
+		$result = $affectationController->resetData();
+		
+		$besoinController = new BesoinController($app);
+		$dashboard = $besoinController->getDashboard();
+		
+		$app->render('Dashboard', ['dashboard' => $dashboard, 'message' => $result]);
+	});
+
 	// Routes pour les achats
 	$router->get('/achats', function() use ($app) {
 		$achatController = new AchatController($app);
@@ -175,7 +195,7 @@ $router->group('', function(Router $router) use ($app) {
 		echo json_encode($result);
 	});
 
-	// Routes pour la récapitulation
+	
 	$router->get('/recap', function() use ($app) {
 		$app->render('Recap');
 	});
